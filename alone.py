@@ -94,7 +94,7 @@ def approve_or_disapprove_user(message):
     cmd_parts = message.text.split()
 
     if user_id != ADMIN_USER_ID:
-        bot.send_message(chat_id, f"❌ *𝙖𝙘𝙘𝙚𝙨𝙨 𝙙𝙚𝙣𝙞𝙚𝙙 . 𝙤𝙣𝙡𝙮 {USERNAME} 𝙩𝙤 𝙪𝙨𝙚 𝙩𝙝𝙞𝙨 𝙘𝙤𝙢𝙢𝙖𝙣𝙙.*", parse_mode='Markdown')
+        bot.send_message(chat_id, f"🚫 *Access Denied. Only {USERNAME} controls this realm.*", parse_mode='Markdown')
         return
 
     if len(cmd_parts) < 2:
@@ -128,14 +128,14 @@ def approve_or_disapprove_user(message):
 
     bot.send_message(chat_id, msg_text, parse_mode='Markdown')
 
-@bot.message_handler(commands=['START'])
+@bot.message_handler(commands=['Attack'])
 def attack_command(message):
     global attack_in_progress
     chat_id = message.chat.id
 
     # Check if an attack is already in progress
     if attack_in_progress:
-        bot.send_message(chat_id, f"⚠️ *𝙬𝙖𝙞𝙩 𝙖𝙣𝙤𝙩𝙝𝙚𝙧 𝙖𝙩𝙩𝙖𝙘𝙠 𝙞𝙨 𝙖𝙡𝙧𝙚𝙙𝙮 𝙧𝙪𝙣𝙣𝙞𝙣𝙜, {USERNAME}.*", parse_mode='Markdown')
+        bot.send_message(chat_id, f"⚠️ *Another attack is already in progress. Please wait until it completes, {USERNAME}.*", parse_mode='Markdown')
         return
 
     user_id = message.from_user.id
@@ -155,7 +155,7 @@ def attack_command(message):
             bot.send_message(chat_id, f"💥 Instant++ Plan at capacity. Contact {USERNAME}.")
             return
 
-        bot.send_message(chat_id, f"𝙜𝙞𝙫𝙚 𝙢𝙚 ☠︎︎ 𝙞𝙥, 𝙥𝙤𝙧𝙩, 𝙙𝙪𝙧𝙖𝙩𝙤𝙞𝙣 (𝙨𝙚𝙘𝙤𝙣𝙙𝙨). OWNER {USERNAME}")
+        bot.send_message(chat_id, f"📝 Provide target details – IP, Port, Duration (seconds). Controlled by {USERNAME}")
         bot.register_next_step_handler(message, process_attack_command)
     except Exception as e:
         logging.error(f"Attack command error: {e}")
@@ -164,7 +164,7 @@ def process_attack_command(message):
     try:
         args = message.text.split()
         if len(args) != 3:
-            bot.send_message(message.chat.id, f"⚠️ *𝙚𝙧𝙧𝙤𝙧: 𝙪𝙨𝙚 <𝙞𝙥> <𝙥𝙤𝙧𝙩> <𝙙𝙪𝙧𝙖𝙩𝙤𝙞𝙣>. 𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME}*", parse_mode='Markdown')
+            bot.send_message(message.chat.id, f"⚠️ *Format incorrect. Use: /Attack <IP> <Port> <Duration>. Maintained by {USERNAME}*", parse_mode='Markdown')
             return
 
         target_ip, target_port, duration = args[0], int(args[1]), args[2]
@@ -180,8 +180,7 @@ def process_attack_command(message):
             f" *༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎* \n\n"
             f" *🆃︎🅰︎🆁︎🅶︎🅴︎🆃︎ :* `{target_ip}`\n"
             f" *🅿︎🅾︎🆁︎🆃︎ :* `{target_port}`\n"
-            f" *🅳︎🆄︎🆁︎🅰︎🆃︎🅾︎🅸︎🅽︎:* `{duration} seconds`\n\n"
-            f" 𝙨𝙚𝙣𝙙 𝙢𝙚 𝙛𝙚𝙚𝙙𝙗𝙖𝙘𝙠  * {USERNAME}* ⚡",
+            f" *🅳︎🆄︎🆁︎🅰︎🆃︎🅾︎🅸︎🅽︎:* `{duration} seconds*",
             parse_mode='Markdown'
         )
     except Exception as e:
@@ -196,50 +195,50 @@ def send_welcome(message):
     # Unique, Intense Menu Options
     markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True)
     options = [
-        "/START ", 
-        "PLANE ", 
-        "SUPPORT ", 
-        "OWNER"
+        " launche Attack ", 
+        " plan ", 
+        " support ", 
+        " owner "
     ]
     buttons = [KeyboardButton(option) for option in options]
     markup.add(*buttons)
 
     bot.send_message(
         message.chat.id,
-        f" *🇼 🇪 🇱 🇨 🇴 🇲 🇪  🇹 🇴  🇬 🇴 🇩X 🇨 🇭 🇪 🇦 🇹 🇸 .*  𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME}",
+        f"👊 *Welcome to Command, Agent. Choose your directive.* Managed by {USERNAME}",
         reply_markup=markup,
         parse_mode='Markdown'
     )
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    if message.text == "🅢︎🅣︎🅐︎🅡︎🅣︎🅔︎🅓︎":
-        bot.reply_to(message, f"*𝙘𝙤𝙢𝙢𝙖𝙣𝙙 𝙧𝙚𝙘𝙞𝙫𝙚𝙙. 𝙘𝙝𝙚𝙘𝙠𝙞𝙣𝙜. 𝙙𝙤𝙣𝙚, {USERNAME}*", parse_mode='Markdown')
+    if message.text == " launch Attack ":
+        bot.reply_to(message, f"*Command received. Preparing deployment. Stand by, {USERNAME}*", parse_mode='Markdown')
         attack_command(message)
-    elif message.text == "🅟︎🅛︎🅐︎🅝︎":
+    elif message.text == " plan ":
         user_id = message.from_user.id
         user_data = users_collection.find_one({"user_id": user_id})
         if user_data:
             username = message.from_user.username
             plan, valid_until = user_data.get('plan', 'N/A'), user_data.get('valid_until', 'N/A')
-            response = (f"*🆄︎🆂︎🅴︎🆁︎ 🅸︎🅳︎: {username}\n"
-                        f"🅿︎🅻︎🅰︎🅽︎: {plan}\n"
-                        f"🅰︎🆄︎🆃︎🅷︎🅾︎🆁︎🅸︎🆉︎🅴︎🅳︎: {valid_until}\n"
-                        f"🆃︎🅸︎🅼︎🅴︎: {datetime.now().isoformat()}. 𝙫𝙚𝙧𝙞𝙛𝙮 𝙗𝙮 {USERNAME}*")
+            response = (f"*Agent ID: {username}\n"
+                        f"Plan Level: {plan}\n"
+                        f"Authorized Until: {valid_until}\n"
+                        f"Timestamp: {datetime.now().isoformat()}. Verified by {USERNAME}*")
         else:
-            response = f"*𝙥𝙧𝙤𝙛𝙞𝙡𝙚 𝙪𝙣𝙠𝙣𝙤𝙬𝙣. 𝙘𝙤𝙣𝙩𝙖𝙘𝙠 {USERNAME} 𝙛𝙤𝙧 𝙖𝙤𝙪𝙩𝙝𝙤𝙧𝙞𝙯𝙚𝙙.*"
+            response = f"*Profile unknown. Contact {USERNAME} for authorization.*"
         bot.reply_to(message, response, parse_mode='Markdown')
-    elif message.text == "🅢︎🅤︎🅟︎🅟︎🅞︎🅡︎🅣︎":
-        bot.reply_to(message, f"*𝙝𝙤𝙬 𝙩𝙤 𝙪𝙨𝙚 /help 𝙘𝙤𝙣𝙩𝙖𝙘𝙩 𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME} .*", parse_mode='Markdown')
-    elif message.text == "🅞︎🅦︎🅝︎🅝︎🅔︎🅡︎":
-        bot.reply_to(message, f"*𝙗𝙤𝙩 𝙤𝙬𝙣𝙣𝙚𝙧: {USERNAME}*", parse_mode='Markdown')
+    elif message.text == " support ":
+        bot.reply_to(message, f"*For support, type /help or contact {USERNAME} at owner.*", parse_mode='Markdown')
+    elif message.text == " owner ":
+        bot.reply_to(message, f"* owner : {USERNAME}*", parse_mode='Markdown')
     else:
-        bot.reply_to(message, f"❌*𝙘𝙤𝙣𝙩𝙖𝙘𝙩 𝙩𝙤 𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME}*", parse_mode='Markdown')
+        bot.reply_to(message, f"❗*Unknown command. Focus, Agent. Managed by {USERNAME}*", parse_mode='Markdown')
 
 if __name__ == "__main__":
     asyncio_thread = Thread(target=start_asyncio_thread, daemon=True)
     asyncio_thread.start()
-    logging.info("𝙗𝙤𝙩 𝙨𝙩𝙖𝙧𝙩𝙚𝙙  𝙛𝙤𝙧 𝙗𝙜𝙢𝙞 𝙠𝙞 𝙘𝙝𝙪𝙙𝙖𝙮𝙞.")
+    logging.info("🚀 Bot is operational and mission-ready.")
 
     while True:
         try:

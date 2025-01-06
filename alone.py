@@ -128,7 +128,7 @@ def approve_or_disapprove_user(message):
 
     bot.send_message(chat_id, msg_text, parse_mode='Markdown')
 
-@bot.message_handler(commands=['Attack'])
+@bot.message_handler(commands=['START'])
 def attack_command(message):
     global attack_in_progress
     chat_id = message.chat.id
@@ -155,7 +155,7 @@ def attack_command(message):
             bot.send_message(chat_id, f"💥 Instant++ Plan at capacity. Contact {USERNAME}.")
             return
 
-        bot.send_message(chat_id, f"𝙜𝙞𝙫𝙚 𝙢𝙚 ☠︎︎ 𝙞𝙥, 𝙥𝙤𝙧𝙩, 𝙙𝙪𝙧𝙖𝙩𝙤𝙞𝙣 (𝙨𝙚𝙘𝙤𝙣𝙙𝙨). {USERNAME}")
+        bot.send_message(chat_id, f"𝙜𝙞𝙫𝙚 𝙢𝙚 ☠︎︎ 𝙞𝙥, 𝙥𝙤𝙧𝙩, 𝙙𝙪𝙧𝙖𝙩𝙤𝙞𝙣 (𝙨𝙚𝙘𝙤𝙣𝙙𝙨). OWNER {USERNAME}")
         bot.register_next_step_handler(message, process_attack_command)
     except Exception as e:
         logging.error(f"Attack command error: {e}")
@@ -196,10 +196,10 @@ def send_welcome(message):
     # Unique, Intense Menu Options
     markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True)
     options = [
-        "🇸 🇹 🇦 🇷 🇹 ", 
-        "🇵 🇱 🇦 🇳 ", 
-        "🇸 🇺 🇵 🇵 🇴 🇷 🇹 ", 
-        "🇴 🇼 🇳 🇳 🇪 🇷 "
+        "/START ", 
+        "PLANE ", 
+        "SUPPORT ", 
+        "OWNER"
     ]
     buttons = [KeyboardButton(option) for option in options]
     markup.add(*buttons)
@@ -234,7 +234,7 @@ def handle_message(message):
     elif message.text == "🅞︎🅦︎🅝︎🅝︎🅔︎🅡︎":
         bot.reply_to(message, f"*𝙗𝙤𝙩 𝙤𝙬𝙣𝙣𝙚𝙧: {USERNAME}*", parse_mode='Markdown')
     else:
-        bot.reply_to(message, f"❌*𝙘𝙤𝙣𝙩𝙖𝙘𝙠 𝙩𝙤 𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME}*", parse_mode='Markdown')
+        bot.reply_to(message, f"❌*𝙘𝙤𝙣𝙩𝙖𝙘𝙩 𝙩𝙤 𝙤𝙬𝙣𝙣𝙚𝙧 {USERNAME}*", parse_mode='Markdown')
 
 if __name__ == "__main__":
     asyncio_thread = Thread(target=start_asyncio_thread, daemon=True)

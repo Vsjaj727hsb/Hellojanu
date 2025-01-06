@@ -15,7 +15,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 loop = asyncio.get_event_loop()
 
 # Bot Configuration: Set with Authority
-TOKEN = '7819992909:AAHn51FAfPId42gmKUT5wPmCoyC4_g9OeN0'
+TOKEN = '8160560841:AAFMXzS4yhXU7FcQpJyBcI9WKy_L-wFJGtY'
 ADMIN_USER_ID = 1662672529
 MONGO_URI = 'mongodb+srv://sharp:sharp@sharpx.x82gx.mongodb.net/?retryWrites=true&w=majority&appName=SharpX'
 USERNAME = "@GODxAloneBOY"  # Immutable username for maximum security
@@ -135,7 +135,7 @@ def attack_command(message):
 
     # Check if an attack is already in progress
     if attack_in_progress:
-        bot.send_message(chat_id, f"⚠️ *Another attack is already in progress. Please wait until it completes, {USERNAME}.*", parse_mode='Markdown')
+        bot.send_message(chat_id, f"⚠️ *An attack is already in progress. Please wait until it completes, {USERNAME}.*", parse_mode='Markdown')
         return
 
     user_id = message.from_user.id
@@ -176,11 +176,12 @@ def process_attack_command(message):
         asyncio.run_coroutine_threadsafe(run_attack_command_async(target_ip, target_port, duration), loop)
         bot.send_message(
             message.chat.id,
-            f" *🇦 🇹 🇹 🇦 🇨 🇰   🇱 🇦 🇺 🇳 🇨 🇭 🇪 🇩 * 💀\n\n"
+             f" *🇦 🇹 🇹 🇦 🇨 🇰   🇱 🇦 🇺 🇳 🇨 🇭 🇪 🇩 * 💀\n\n"
             f" *༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎༒︎* \n\n"
             f" *🆃︎🅰︎🆁︎🅶︎🅴︎🆃︎ :* `{target_ip}`\n"
             f" *🅿︎🅾︎🆁︎🆃︎ :* `{target_port}`\n"
-            f" *🅳︎🆄︎🆁︎🅰︎🆃︎🅾︎🅸︎🅽︎:* `{duration} seconds*",
+            f" *🅳︎🆄︎🆁︎🅰︎🆃︎🅾︎🅸︎🅽︎:* `{duration} seconds`\n\n"
+            f" *OWNER {USERNAME}* ",
             parse_mode='Markdown'
         )
     except Exception as e:
@@ -195,10 +196,10 @@ def send_welcome(message):
     # Unique, Intense Menu Options
     markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=True)
     options = [
-        " launche Attack ", 
-        " plan ", 
-        " support ", 
-        " owner "
+        "💀 Initiate Attack 🔥", 
+        "🔍 Status Report", 
+        "📜 Mission Brief", 
+        "📞 Contact HQ"
     ]
     buttons = [KeyboardButton(option) for option in options]
     markup.add(*buttons)
@@ -212,10 +213,10 @@ def send_welcome(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    if message.text == " launch Attack ":
+    if message.text == "💀 Initiate Attack 🔥":
         bot.reply_to(message, f"*Command received. Preparing deployment. Stand by, {USERNAME}*", parse_mode='Markdown')
         attack_command(message)
-    elif message.text == " plan ":
+    elif message.text == "🔍 Status Report":
         user_id = message.from_user.id
         user_data = users_collection.find_one({"user_id": user_id})
         if user_data:
@@ -228,10 +229,10 @@ def handle_message(message):
         else:
             response = f"*Profile unknown. Contact {USERNAME} for authorization.*"
         bot.reply_to(message, response, parse_mode='Markdown')
-    elif message.text == " support ":
-        bot.reply_to(message, f"*For support, type /help or contact {USERNAME} at owner.*", parse_mode='Markdown')
-    elif message.text == " owner ":
-        bot.reply_to(message, f"* owner : {USERNAME}*", parse_mode='Markdown')
+    elif message.text == "📜 Mission Brief":
+        bot.reply_to(message, f"*For support, type /help or contact {USERNAME} at HQ.*", parse_mode='Markdown')
+    elif message.text == "📞 Contact HQ":
+        bot.reply_to(message, f"*Direct Line to HQ: {USERNAME}*", parse_mode='Markdown')
     else:
         bot.reply_to(message, f"❗*Unknown command. Focus, Agent. Managed by {USERNAME}*", parse_mode='Markdown')
 
